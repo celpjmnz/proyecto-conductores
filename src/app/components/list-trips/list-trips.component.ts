@@ -1,23 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079 },
-  { position: 2, name: 'Helium', weight: 4.0026 },
-  { position: 3, name: 'Lithium', weight: 6.941 },
-  { position: 4, name: 'Beryllium', weight: 9.0122 },
-  { position: 5, name: 'Boron', weight: 10.811 },
-  { position: 6, name: 'Carbon', weight: 12.0107 },
-  { position: 7, name: 'Nitrogen', weight: 14.0067 },
-  { position: 8, name: 'Oxygen', weight: 15.9994 },
-  { position: 9, name: 'Fluorine', weight: 18.9984 },
-  { position: 10, name: 'Neon', weight: 20.1797 },
-];
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { ListTripsService } from '../services/list-trips.service';
+import { MatDialog } from '@angular/material/dialog';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-list-trips',
@@ -25,11 +12,75 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./list-trips.component.css'],
 })
 export class ListTripsComponent implements OnInit {
-  title = 'app_geotransfer';
-  displayedColumns: string[] = ['position', 'name', 'weight'];
-  dataSource = ELEMENT_DATA;
+  dataSource!: MatTableDataSource<any>;
+  displayedColumns = ['fecha', 'conductor', 'tipoVehiculo'];
+  idUsuario: any;
 
-  constructor() {}
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
-  ngOnInit(): void {}
+  public fechaFilter = new FormControl();
+  public conductorFilter = new FormControl();
+  public TipoVehiculoFilter = new FormControl();
+  private filterValues = {
+    fecha: '',
+    conductor: '',
+    tipoVehiculo: '',
+  };
+  VehiculosList = [];
+
+  constructor(private service: ListTripsService, public dialog: MatDialog) {
+    //this.getVehiculos();
+  }
+
+  ngOnInit() {
+    this.service.getViajes().subscribe((data) => {
+      /*  if (!data) {
+        return 'Error en la llamada';
+      } */
+      this.dataSource = new MatTableDataSource(data);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.filterPredicate = this.createFilter();
+    });
+    this.onChanges();
+  }
+
+  /*  getVehiculos() {
+    this.service.getVehiculos().subscribe((data) => {
+      this.VehiculosList = data;
+    });
+  } */
+
+  onChanges(): void {
+    this.fechaFilter.valueChanges.subscribe((value) => {
+      this.filterValues['fecha'] = value;
+      this.dataSource.filter = JSON.stringify(this.filterValues);
+    });
+    this.conductorFilter.valueChanges.subscribe((value) => {
+      this.filterValues['conductor'] = value;
+      this.dataSource.filter = JSON.stringify(this.filterValues);
+    });
+    this.TipoVehiculoFilter.valueChanges.subscribe((value) => {
+      this.filterValues['tipoVehiculo'] = value;
+      this.dataSource.filter = JSON.stringify(this.filterValues);
+    });
+  }
+
+  createFilter(): (data: any, filter: string) => boolean {
+    let filterFunction = function (data: any, filter: any): boolean {
+      let searchTerms = JSON.parse(filter);
+      return (
+        data.fecha.toLowerCase().indexOf(searchTerms.fecha.toLowerCase()) !=
+          -1 &&
+        data.conductor
+          .toLowerCase()
+          .indexOf(searchTerms.conductor.toLowerCase()) != -1 &&
+        data.tipoVehiculo
+          .toLowerCase()
+          .indexOf(searchTerms.tipoVehiculo.toLowerCase()) != -1
+      );
+    };
+    return filterFunction;
+  }
 }

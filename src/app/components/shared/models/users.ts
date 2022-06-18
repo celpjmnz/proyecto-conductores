@@ -1,5 +1,5 @@
-export class users {
-  id!: number;
-  nombre_usuario!: string;
-  password!: string;
+export interface users {
+  id: number;
+  nombreUsuario: string;
+  password: string;
 }

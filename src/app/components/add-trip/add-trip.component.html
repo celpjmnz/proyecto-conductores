@@ -1,41 +1,56 @@
 <mat-stepper linear #stepper>
     <!-- #docregion editable -->
-      <mat-step [stepControl]="firstFormGroup" >
+      <mat-step  >
     <!-- #enddocregion editable -->
-        <form [formGroup]="firstFormGroup">
+        <form [formGroup]="ViajesForm">
     <!-- #docregion step-label -->
           <ng-template matStepLabel>Elige la fecha de salida</ng-template>
     <!-- #enddocregion step-label -->
-          <mat-form-field appearance="fill">
-            <mat-label>datapicker</mat-label>
-            <input matInput formControlName="firstCtrl" placeholder="Last name, First name" required>
-          </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Choose a date</mat-label>
+      <input matInput formControlName="fecha" [matDatepicker]="picker" required>
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
           <div>
             <button mat-button matStepperNext>Next</button>
           </div>
         </form>
       </mat-step>
 
-      <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
-        <form [formGroup]="secondFormGroup">
-          <ng-template matStepLabel>Nombre del cliente</ng-template>
-          <mat-form-field appearance="fill">
-            <mat-label>Nombre</mat-label>
-            <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-                   required>
-          </mat-form-field>
+      <mat-step  [editable]="isEditable">
+        <form [formGroup]="ViajesForm">
+          <ng-template matStepLabel>Nombre del conductor</ng-template>
+          <mat-select formControlName="idUsuario" name="idUsuario" placeholder="Seleccionar conductor" required>
+            <mat-option *ngFor="let conductores of driversList" [value]="conductores.id">{{conductores.nombre}}
+            </mat-option>
+        </mat-select>
           <div>
             <button mat-button matStepperNext>Next</button>
           </div>
         </form>
       </mat-step>
 
-      <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
-        <form [formGroup]="secondFormGroup">
+      <mat-step  [editable]="isEditable">
+        <form [formGroup]="ViajesForm">
+          <ng-template matStepLabel>Nombre del conductor</ng-template>
+          <mat-select formControlName="idTipoVehiculo" name="idTipoVehiculo" placeholder="Seleccionar vehiculo" required>
+            <mat-option *ngFor="let vehiculos of vehiclesList" [value]="vehiculos.idTipoVehiculo">{{vehiculos.tipoVehiculo}}
+            </mat-option>
+        </mat-select>
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step  [editable]="isEditable">
+        <form [formGroup]="ViajesForm">
           <ng-template matStepLabel>Dirección</ng-template>
           <mat-form-field appearance="fill">
             <mat-label>Dirección</mat-label>
-            <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+            <input matInput formControlName="destino" placeholder="Ex. 1 Main St, New York, NY"
                    required>
           </mat-form-field>
           <div>
@@ -44,11 +59,11 @@
         </form>
       </mat-step>
       <mat-step>
-        <ng-template matStepLabel>Done</ng-template>
-        <p>You are now done.</p>
+        <ng-template matStepLabel>Finalizar</ng-template>
+        <p>¿Estás seguro?</p>
         <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button (click)="stepper.reset()">Fin</button>
+          <button mat-button matStepperPrevious>Revisar</button>
+          <button mat-button type="submit" (click)="confirm()">Si</button>
         </div>
       </mat-step>
     </mat-stepper>
