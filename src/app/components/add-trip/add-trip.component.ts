@@ -16,6 +16,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { AddTripService } from '../services/add-trip.service';
 import { UsersService } from '../services/users.service';
 import { trips } from '../shared/models/trips';
@@ -48,10 +49,12 @@ export class AddTripComponent implements OnInit {
     //  @Inject(MAT_DIALOG_DATA) public viajes: trips,
     private serviceConductores: UsersService,
     private service: AddTripService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private router: Router
   ) {
     // this.viajes = new trips();
     this.getConductores();
+    this.getVehiculos();
   }
 
   ngOnInit() {
@@ -83,8 +86,12 @@ export class AddTripComponent implements OnInit {
 
   public confirm(): void {
     if (this.ViajesForm.valid) {
-      console.log(this.ViajesForm.value);
-      this.service.add(this.ViajesForm.value);
+      // console.log(this.ViajesForm.value);
+      this.service.add(this.ViajesForm.value).subscribe((res) => {
+        console.log('Viaje añadido!');
+      });
+      //  this.router.navigate(['./listTrips']);
     }
+    this.router.navigate(['./listTrips']);
   }
 }

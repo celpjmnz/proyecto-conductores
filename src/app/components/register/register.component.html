@@ -1,18 +1,18 @@
 <div class="limiter">
     <div class="container-login100" style="background-image: url('../../../../assets/images/bg-01.jpg');">
-        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-            <form class="login100-form" autocomplete="off">
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54" >
+            <form class="login100-form" autocomplete="off" [formGroup]="UsuariosForm">
                 
                 <span class="login100-form-title p-b-49">
                     Nuevo usuario
                 </span>
 
                 <div class="wrap-input100 m-b-23">
-                    <span class="label-input100">Email</span>
+                    <span class="label-input100">Usuario</span>
                     <input class="input100"
                            type="email" 
-                           name="email" 
-                           placeholder="Ingrese su email">
+                           name="nombreUsuarioCliente" formControlName="nombreUsuarioCliente"
+                           placeholder="Ingrese su usuario">
                     <span class="focus-input100"></span>
                 </div>
 
@@ -20,7 +20,7 @@
                     <span class="label-input100">Password</span>
                     <input class="input100"
                            type="password"
-                           name="password" 
+                           name="password"  formControlName="password"
                            placeholder="Ingrese su contraseña">
                     <span class="focus-input100"></span>
                 </div>
@@ -30,7 +30,7 @@
                 <div class="container-login100-form-btn">
                     <div class="wrap-login100-form-btn">
                         <div class="login100-form-bgbtn"></div>
-                        <button class="login100-form-btn" (click)="create()" >
+                        <button class="login100-form-btn" type="submit" (click)="create()" >
                             Crear usuario
                         </button>
                     </div>

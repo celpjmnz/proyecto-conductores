@@ -1,6 +1,6 @@
 export class trips {
   id!: number;
-  fecha!: string;
+  fecha!: Date;
   idTipoVehiculo!: number;
   idUsuario!: number;
   idCliente!: number;

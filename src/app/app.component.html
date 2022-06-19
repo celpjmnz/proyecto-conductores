@@ -20,10 +20,11 @@
       </button>
       <span>Travelling</span>
       <span class="example-spacer"></span>
+      <span>{{user.idUsuarioCliente}}</span>
       <button mat-icon-button class="example-icon">
         <mat-icon>perm_identity</mat-icon>
       </button>
-      <button mat-icon-button class="example-icon" routerLink="login">
+      <button mat-icon-button class="example-icon" (click)="logout()">
         <mat-icon>power_settings_new</mat-icon>
       </button>
     </mat-toolbar>

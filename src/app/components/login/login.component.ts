@@ -12,8 +12,8 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.service.login().subscribe((resp) => {
-      console.log(resp);
-      if (resp) {
+      console.log(resp.idUsuarioCliente);
+      if (resp.idUsuarioCliente) {
         this.router.navigate(['./listTrips']);
       }
     });

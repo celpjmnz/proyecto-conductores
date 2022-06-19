@@ -5,10 +5,11 @@ import { AddTripComponent } from './components/add-trip/add-trip.component';
 import { ListTripsComponent } from './components/list-trips/list-trips.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { LoginGuard } from './components/login/login.guard';
 
 const routes: Routes = [
   { path: '', component: AppComponent },
-  { path: 'listTrips', component: ListTripsComponent },
+  { path: 'listTrips', component: ListTripsComponent, canLoad: [LoginGuard] },
   { path: 'addTrip', component: AddTripComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

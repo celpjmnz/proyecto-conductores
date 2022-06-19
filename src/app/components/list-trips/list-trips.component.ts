@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ListTripsService } from '../services/list-trips.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-list-trips',
@@ -13,7 +14,7 @@ import { FormControl } from '@angular/forms';
 })
 export class ListTripsComponent implements OnInit {
   dataSource!: MatTableDataSource<any>;
-  displayedColumns = ['fecha', 'conductor', 'tipoVehiculo'];
+  displayedColumns = ['fecha', 'conductor', 'tipoVehiculo', 'destino'];
   idUsuario: any;
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -22,10 +23,12 @@ export class ListTripsComponent implements OnInit {
   public fechaFilter = new FormControl();
   public conductorFilter = new FormControl();
   public TipoVehiculoFilter = new FormControl();
+  public destinoFilter = new FormControl();
   private filterValues = {
     fecha: '',
     conductor: '',
     tipoVehiculo: '',
+    destino: '',
   };
   VehiculosList = [];
 
@@ -65,6 +68,10 @@ export class ListTripsComponent implements OnInit {
       this.filterValues['tipoVehiculo'] = value;
       this.dataSource.filter = JSON.stringify(this.filterValues);
     });
+    this.destinoFilter.valueChanges.subscribe((value) => {
+      this.filterValues['destino'] = value;
+      this.dataSource.filter = JSON.stringify(this.filterValues);
+    });
   }
 
   createFilter(): (data: any, filter: string) => boolean {
@@ -78,7 +85,9 @@ export class ListTripsComponent implements OnInit {
           .indexOf(searchTerms.conductor.toLowerCase()) != -1 &&
         data.tipoVehiculo
           .toLowerCase()
-          .indexOf(searchTerms.tipoVehiculo.toLowerCase()) != -1
+          .indexOf(searchTerms.tipoVehiculo.toLowerCase()) != -1 &&
+        data.destino.toLowerCase().indexOf(searchTerms.destino.toLowerCase()) !=
+          -1
       );
     };
     return filterFunction;
