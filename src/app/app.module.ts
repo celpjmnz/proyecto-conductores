@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { AddTripComponent } from './components/add-trip/add-trip.component';
+import { AddVehicleComponent } from './components/add-vehicle/add-vehicle.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { ListTripsComponent } from './components/list-trips/list-trips.component';
 import { MatInputModule } from '@angular/material/input';
@@ -25,14 +25,20 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
+import { DeleteTripComponent } from './components/list-trips/delete-trip/delete-trip.component';
+import { ListVehiclesComponent } from './components/list-vehicles/list-vehicles.component';
+import { DeleteVehiclesComponent } from './components/list-vehicles/delete-vehicles/delete-vehicles.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddTripComponent,
+    AddVehicleComponent,
     ListTripsComponent,
     LoginComponent,
     RegisterComponent,
+    DeleteTripComponent,
+    ListVehiclesComponent,
+    DeleteVehiclesComponent,
   ],
   imports: [
     BrowserModule,

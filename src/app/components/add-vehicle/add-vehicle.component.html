@@ -1,0 +1,24 @@
+<mat-stepper linear #stepper>
+  
+      <mat-step  [editable]="isEditable">
+        <form [formGroup]="VehiculosForm">
+          <ng-template matStepLabel>Vehiculo</ng-template>
+          <mat-form-field appearance="fill">
+            <mat-label>Añadir tipo de vehiculo</mat-label>
+            <input matInput formControlName="tipoVehiculo"
+                   required>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Finalizar</ng-template>
+        <p>¿Estás seguro?</p>
+        <div>
+          <button mat-button matStepperPrevious>Revisar</button>
+          <button mat-button type="submit"  [disabled]="!VehiculosForm.valid" (click)="confirm()">Si</button>
+        </div>
+      </mat-step>
+    </mat-stepper>

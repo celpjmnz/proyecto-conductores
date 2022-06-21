@@ -2,8 +2,13 @@
 
   <mat-sidenav #sidenav mode="push" >
     <mat-nav-list>
-      <a routerLink="./addTrip" mat-list-item (click)="sidenav.toggle()">
-        <span>Crear nuevo viaje</span>
+      <a routerLink="./addVehicle" mat-list-item (click)="sidenav.toggle()">
+        <span>Añadir nuevo vehículo</span>
+      </a>
+
+
+      <a routerLink="./listVehicles" mat-list-item (click)="sidenav.toggle()">
+        <span>Ver vehículos</span>
       </a>
 
       <a routerLink="./listTrips" mat-list-item (click)="sidenav.toggle()">
@@ -20,10 +25,11 @@
       </button>
       <span>Travelling</span>
       <span class="example-spacer"></span>
-      <span>{{user.idUsuarioCliente}}</span>
-      <button mat-icon-button class="example-icon">
+     <!--  <span>{{user.nombreUsuarioCliente}}</span> -->
+
+      <!-- <button mat-icon-button class="example-icon" disabled>
         <mat-icon>perm_identity</mat-icon>
-      </button>
+      </button> -->
       <button mat-icon-button class="example-icon" (click)="logout()">
         <mat-icon>power_settings_new</mat-icon>
       </button>
@@ -31,6 +37,7 @@
 
     <div class="container">
     <router-outlet></router-outlet>
+    
   </div>
   
 </mat-sidenav-container>

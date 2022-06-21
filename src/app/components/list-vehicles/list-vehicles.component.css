@@ -1,0 +1,11 @@
+table {
+    width: 93%;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 20px;
+  }
+  th {
+    background-color: rgb(255, 239, 98);
+    color: white;
+  }
+  

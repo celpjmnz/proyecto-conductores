@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { clients } from '../shared/models/clients.interface';
-import { retry, catchError, Observable, tap } from 'rxjs';
+import { retry, catchError, Observable, tap, map, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -16,11 +16,26 @@ export class LoginService {
 
   constructor(public http: HttpClient) {}
 
-  login() {
+  /* verificaAutenticacion(): Observable<boolean> {
+    if (!localStorage.getItem('token')) {
+      return of(false);
+    }
+
+    return this.http.get<clients>('http://localhost:3000/clientusers/4').pipe(
+      map((clientes) => {
+        this._clients = clientes;
+        return true;
+      })
+    );
+  } */
+
+  login(user: clients) {
     let url = 'http://localhost:3000/clientusers/4';
     return this.http
       .get<clients>(url)
-      .pipe(tap((clients) => (this._clients = clients)));
+      .pipe(
+        tap((clientes) => (this._clients = clientes))
+      ); /* return this.http.post<clients>(url, user); */
   }
 
   register(data: clients): Observable<clients> {

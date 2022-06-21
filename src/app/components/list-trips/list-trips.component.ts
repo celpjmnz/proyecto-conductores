@@ -6,6 +6,7 @@ import { ListTripsService } from '../services/list-trips.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
 import { LoginService } from '../services/login.service';
+import { DeleteTripComponent } from './delete-trip/delete-trip.component';
 
 @Component({
   selector: 'app-list-trips',
@@ -14,19 +15,19 @@ import { LoginService } from '../services/login.service';
 })
 export class ListTripsComponent implements OnInit {
   dataSource!: MatTableDataSource<any>;
-  displayedColumns = ['fecha', 'conductor', 'tipoVehiculo', 'destino'];
+  displayedColumns = ['fecha', 'cliente', 'tipoVehiculo', 'destino', 'actions'];
   idUsuario: any;
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
   public fechaFilter = new FormControl();
-  public conductorFilter = new FormControl();
+  public clienteFilter = new FormControl();
   public TipoVehiculoFilter = new FormControl();
   public destinoFilter = new FormControl();
   private filterValues = {
     fecha: '',
-    conductor: '',
+    cliente: '',
     tipoVehiculo: '',
     destino: '',
   };
@@ -38,9 +39,6 @@ export class ListTripsComponent implements OnInit {
 
   ngOnInit() {
     this.service.getViajes().subscribe((data) => {
-      /*  if (!data) {
-        return 'Error en la llamada';
-      } */
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -60,8 +58,8 @@ export class ListTripsComponent implements OnInit {
       this.filterValues['fecha'] = value;
       this.dataSource.filter = JSON.stringify(this.filterValues);
     });
-    this.conductorFilter.valueChanges.subscribe((value) => {
-      this.filterValues['conductor'] = value;
+    this.clienteFilter.valueChanges.subscribe((value) => {
+      this.filterValues['cliente'] = value;
       this.dataSource.filter = JSON.stringify(this.filterValues);
     });
     this.TipoVehiculoFilter.valueChanges.subscribe((value) => {
@@ -82,7 +80,7 @@ export class ListTripsComponent implements OnInit {
           -1 &&
         data.conductor
           .toLowerCase()
-          .indexOf(searchTerms.conductor.toLowerCase()) != -1 &&
+          .indexOf(searchTerms.cliente.toLowerCase()) != -1 &&
         data.tipoVehiculo
           .toLowerCase()
           .indexOf(searchTerms.tipoVehiculo.toLowerCase()) != -1 &&
@@ -91,5 +89,17 @@ export class ListTripsComponent implements OnInit {
       );
     };
     return filterFunction;
+  }
+
+  delete(id: number): void{
+    const dialogRef = this.dialog.open(DeleteTripComponent, {
+      data: { id }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        this.ngOnInit();
+      }
+    });
   }
 }

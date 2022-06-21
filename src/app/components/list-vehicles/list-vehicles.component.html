@@ -1,0 +1,27 @@
+<div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"> 
+    
+     <ng-container matColumnDef="idTipoVehiculo">
+       <th mat-header-cell *matHeaderCellDef><input matInput [formControl]="idFilter" placeholder="ID"><span
+         mat-sort-header></span></th>
+       <td mat-cell *matCellDef="let vehiculos"> {{vehiculos.idTipoVehiculo}} </td>
+     </ng-container>
+   
+     <ng-container matColumnDef="tipoVehiculo">
+        <th mat-header-cell *matHeaderCellDef><input matInput [formControl]="tipoFilter" placeholder="Tipo de vehículo"><span
+          mat-sort-header></span></th>
+        <td mat-cell *matCellDef="let vehiculos"> {{vehiculos.tipoVehiculo}} </td>
+      </ng-container>
+
+     <ng-container matColumnDef="actions">
+       <th mat-header-cell *matHeaderCellDef ></th>
+       <td mat-cell *matCellDef="let row; let i=index; let vehiculos"> <button mat-icon-button (click)="delete(vehiculos.idTipoVehiculo)"
+        >
+         <mat-icon title="Eliminar vehiculo"><i class="material-icons  edit">delete</i></mat-icon>
+       </button> </td>
+     </ng-container>
+   
+     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+   </table>
+ </div>
